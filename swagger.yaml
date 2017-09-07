@@ -1,0 +1,687 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Mobile API
+  description: Sketch of possible mobile API for Hausy project
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+host: hausy.org
+basePath: /api/v1/
+tags:
+  - name: users
+    description: User requests
+  - name: devices
+    description: Device requests
+    
+#################
+##  REQUESTS   ##  
+#################  
+paths:
+#################
+##    USERS    ##  
+#################  
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: User's login
+      operationId: login
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/email'
+        - $ref: '#/parameters/password'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseString'
+
+  /users/signup:
+    post:
+      tags:
+        - users
+      summary: User's registration
+      operationId: signup
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/email'
+        - $ref: '#/parameters/password'
+        - $ref: '#/parameters/firstName'
+        - $ref: '#/parameters/lastName'
+      responses:
+        '200': 
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+  
+  /users:
+    get:
+      tags:
+        - users
+      summary: Get all users
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+      responses:
+        '200': 
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+    post:
+      tags:
+        - users
+      summary: Create new user
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+      responses:
+        '200': 
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Get user profile information
+      operationId: usersProfile
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200': 
+          $ref: '#/responses/ResponseUser'
+        '500':
+          $ref: '#/responses/ResponseError'
+    put:
+      tags:
+        - users
+      summary: Update user profile information
+      operationId: usersProfileUpdate
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+        - $ref: '#/parameters/email'
+        - $ref: '#/parameters/firstName'
+        - $ref: '#/parameters/lastName'
+        - $ref: '#/parameters/group'
+      responses:
+        '200': 
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200': 
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+
+#################
+##   GROUPS    ##  
+#################  
+  /groups:
+    get:
+      tags: 
+        - groups
+      summary: Get all groups
+      operationId: groups
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseAllGroup'
+        '500':
+          $ref: '#/responses/ResponseError'
+    post:
+      tags:
+        - groups
+      summary: Create new group
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/name'  
+        - $ref: '#/parameters/description'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+
+  /groups/{id}:
+    get:
+      tags: 
+        - groups
+      summary: Get group detail information
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseGroup'
+        '500':
+          $ref: '#/responses/ResponseError'
+    put:
+      tags:
+        - groups
+      summary: Update group
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+        - $ref: '#/parameters/name'  
+        - $ref: '#/parameters/description'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+    delete:
+      tags:
+        - groups
+      summary: Delete group
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+          
+#################
+##   DEVICES   ##  
+#################  
+  /devices:
+    get:
+      tags: 
+        - devices
+      summary: Get all devices
+      operationId: devices
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseAllDevice'
+        '500':
+          $ref: '#/responses/ResponseError'
+    post:
+      tags:
+        - devices
+      summary: Create new device
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/name'  
+        - $ref: '#/parameters/description'
+        - $ref: '#/parameters/deviceType'
+        - $ref: '#/parameters/icon' 
+        - $ref: '#/parameters/unit'  
+        - $ref: '#/parameters/min'
+        - $ref: '#/parameters/max'   
+        - $ref: '#/parameters/step' 
+      responses:
+        '200':
+          $ref: '#/responses/ResponseInteger'
+        '500':
+          $ref: '#/responses/ResponseError'
+ 
+  /devices/{id}:
+    get:
+      tags: 
+        - devices
+      summary: Get device detail information
+      operationId: devicesDetail
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseDevice'
+        '500':
+          $ref: '#/responses/ResponseError'
+    put:
+      tags:
+        - devices
+      summary: Update device
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+        - $ref: '#/parameters/name'  
+        - $ref: '#/parameters/description'
+        - $ref: '#/parameters/deviceType'
+        - $ref: '#/parameters/icon' 
+        - $ref: '#/parameters/unit'  
+        - $ref: '#/parameters/min'
+        - $ref: '#/parameters/max'   
+        - $ref: '#/parameters/step' 
+      responses:
+        '200':
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+          
+    delete:
+      tags:
+        - devices
+      summary: Delete device
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseSuccess'
+        '500':
+          $ref: '#/responses/ResponseError'
+  
+  /devices/{id}/value:
+    get:
+      tags: 
+        - devices
+      summary: Get device's current value
+      operationId: devicesCurrentVal
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+      responses:
+        '200':
+          $ref: '#/responses/ResponseString'
+        '500':
+          $ref: '#/responses/ResponseError'
+    put:
+      tags: 
+        - devices
+      summary: Update device's current value
+      operationId: devicesSetCurrentVal
+      parameters: 
+        - $ref: '#/parameters/token'
+        - $ref: '#/parameters/version'
+        - $ref: '#/parameters/anyID'
+        - name: value
+          in: query
+          description: New value
+          type: string
+          required: true
+      responses:
+        '200':
+          $ref: '#/responses/ResponseString'
+        '500':
+          $ref: '#/responses/ResponseError'
+  
+
+#################
+## PARAMETERS  ##  
+#################  
+parameters:
+
+  token:
+    name: token
+    description: Login token
+    in: query
+    type: string
+    required: true
+    
+  version:
+    name: version
+    description: App version
+    in: query
+    type: string
+    required: true
+
+  email:
+    name: email
+    description: User's username
+    in: formData
+    type: string
+    required: true
+
+  firstName:
+    name: firstname
+    description: User's firstname (name)
+    in: formData
+    type: string 
+    required: true
+
+  lastName:
+    name: lastname
+    description: User's lastname (surname)
+    in: formData
+    type: string
+    required: true
+
+  password:
+    name: password
+    description: User's password
+    in: formData
+    type: string
+    required: true
+  
+  group:
+    name: group
+    description: User's group ID
+    in: formData
+    type: integer
+    required: true
+
+  anyID:
+    name: id
+    description: Object ID
+    in: path
+    type: integer
+    required: true
+
+  name:
+    name: name
+    description: Device's name
+    in: formData
+    type: string
+    required: true
+
+  description:
+    name: description
+    description: Device's description
+    in: formData
+    type: string
+    required: true
+
+  deviceType:
+    name: type
+    description: Device's type
+    in: formData
+    type: integer
+    enum: 
+      - 0 #Value
+      - 1 #Switch
+      - 2 #Button
+      - 3 #Lights
+    required: true
+ 
+  icon:
+    name: icon
+    description: Device's icon
+    in: formData
+    type: string
+    required: true
+  
+  unit:
+    name: unit
+    description: Device's value unit
+    in: formData
+    type: string
+    required: false
+
+  min:
+    name: min
+    description: Device's minimal value
+    in: formData
+    type: integer
+    required: false
+
+  max:
+    name: max 
+    description: Device's maximal value
+    in: formData
+    type: integer
+    required: false
+
+  step:
+    name: step
+    description: Device's value step
+    in: formData
+    type: integer
+    required: false
+  
+
+#################
+## DEFINITIONS ##  
+#################
+definitions:
+
+  Response:
+    properties:
+      responseCode:
+        type: integer
+      message:
+        type: string
+      response:
+        type: object
+        
+  Group:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: children
+      description:
+        type: string
+        example: Group for children
+        
+  User:
+    type: object
+    properties:
+      email:
+        type: string  
+      firstname:
+        type: string
+      lastname:
+        type: string
+      group:
+        $ref: '#/definitions/Group'
+        
+  Device:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: device name
+      description:
+        type: string
+        example: device description
+      type:
+        type: integer
+        example: 0
+        enum: 
+          - 0 #Value
+          - 1 #Switch
+          - 2 #Button
+          - 3 #Lights
+      icon:
+        type: string
+        example: \ufc10
+      value:
+        type: string
+        example: some
+      unit:
+        type: string
+        example: ºF
+      min:
+        type: integer
+        format: double
+        example: 65
+      max:
+        type: integer
+        format: double
+        example: 100
+      step:
+        type: integer
+        format: double
+        example: 1
+      timer:
+        type: integer
+        example: 1000
+      history:
+        type: array
+        items:
+          type: integer
+          format: double
+        example: [87, 86, 85]
+        
+  RAllDevices:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            type: array
+            items:
+              $ref: '#/definitions/Device'
+  
+  RDevice:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            $ref: '#/definitions/Device'
+            
+  RAllUsers:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+  
+  RUser:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            $ref: '#/definitions/User'
+            
+  RAllGroups:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            type: array
+            items:
+              $ref: '#/definitions/Group'
+              
+  RGroup:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            $ref: '#/definitions/Group'
+            
+  RString:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            type: string
+            example: EGsomeTokenFromL0ginR3quest
+  
+  RInteger:
+    allOf: 
+      - $ref: '#/definitions/Response'
+      - type: object
+        properties:
+          response:
+            type: integer
+            example: 23
+  
+
+#################
+##  RESPONSES  ##  
+#################  
+responses:
+
+  ResponseSuccess:
+    description: Success
+    schema:
+      $ref: '#/definitions/Response'
+      
+  ResponseError:
+    description: Unknown Error
+    schema:
+      $ref: '#/definitions/Response'
+
+  ResponseAllDevice:
+    description: Success
+    schema:
+      $ref: '#/definitions/RAllDevices'
+
+  ResponseDevice:
+    description: Success
+    schema:
+      $ref: '#/definitions/RDevice'
+      
+  ResponseAllUser:
+    description: Success
+    schema:
+      $ref: '#/definitions/RAllUsers'
+
+  ResponseUser:
+    description: Success
+    schema:
+      $ref: '#/definitions/RUser'
+      
+  ResponseAllGroup:
+    description: Success
+    schema:
+      $ref: '#/definitions/RAllGroups'
+      
+  ResponseGroup:
+    description: Success
+    schema:
+      $ref: '#/definitions/RGroup'
+  
+  ResponseString:
+    description: Success (e.g. token)
+    schema:
+      $ref: '#/definitions/RString'
+
+  ResponseInteger:
+    description: Success (e.g. ID)
+    schema:
+      $ref: '#/definitions/RInteger'
